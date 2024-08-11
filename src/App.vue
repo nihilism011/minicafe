@@ -1,10 +1,11 @@
 <template>
   <v-app>
     <v-main>
-      <v-btn color="primary">Vuetify 버튼</v-btn>
-      <v-btn color="primary"></v-btn>
-      <v-btn depressed color="pink">click me</v-btn>
-      <HelloWorld />
+      <Top_Menu_Bar />
+      <MainPage />
+      <DrinkPage />
+      <ReviewPage />
+      <AdminPage />
     </v-main>
   </v-app>
   <v-app>
@@ -13,17 +14,24 @@
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import Top_Menu_Bar from "./components/Top_Menu_Bar.vue";
+import DrinkPage from "./components/DrinkPage.vue";
+import MainPage from "./components/MainPage.vue";
+import ReviewPage from "./components/ReviewPage.vue";
+import AdminPage from "./components/AdminPage.vue";
 export default {
   name: "App",
 
   components: {
-    HelloWorld,
+    Top_Menu_Bar,
+    MainPage,
+    DrinkPage,
+    ReviewPage,
+    AdminPage,
   },
 
   data: () => ({
-    //
+    isview: "mainPage",
   }),
 };
 </script>
