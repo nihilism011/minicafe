@@ -56,12 +56,12 @@
         </v-card>
       </v-col>
       <v-col>
-        <userList v-show="selectedMenu == 1" />
-        <div v-show="selectedMenu == 2">메뉴2</div>
-        <div v-show="selectedMenu == 3">메뉴3</div>
-        <div v-show="selectedMenu == 4">메뉴4</div>
-        <div v-show="selectedMenu == 5">메뉴5</div>
-        <div v-show="selectedMenu == 6">메뉴6</div>
+        <userList v-if="selectedMenu == 1" />
+        <drinkMenu v-if="selectedMenu == 2" />
+        <div v-if="selectedMenu == 3">메뉴3</div>
+        <div v-if="selectedMenu == 4">메뉴4</div>
+        <div v-if="selectedMenu == 5">메뉴5</div>
+        <div v-if="selectedMenu == 6">메뉴6</div>
       </v-col>
     </v-row>
   </v-container>
@@ -69,9 +69,11 @@
 
 <script>
 import userList from "./AdminMenu/userList.vue";
+import drinkMenu from "./AdminMenu/drinkMenu.vue";
 export default {
   components: {
     userList,
+    drinkMenu,
   },
   data: () => ({
     selectedMenu: 1,
