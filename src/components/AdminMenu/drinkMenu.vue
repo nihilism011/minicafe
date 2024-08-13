@@ -1,61 +1,171 @@
 <template>
-  <v-btn color="orange" @click="fnInsertDrink">추가</v-btn>
-  <v-dialog
-    v-model="isInfoDrink"
-    scrollable
-    :overlay="false"
-    max-width="500px"
-    transition="dialog-transition"
-  >
-    <DrinkInfo v-if="isInfoDrink" @close="fnInsertDrink" />
-  </v-dialog>
-  <div class="d-flex flex-row mb-2">
-    <v-card
-      v-for="item in drinkList"
-      :key="item.DRINKNO"
-      class="mx-auto"
-      max-width="250"
-      min-width="200"
-    >
-      <v-img class="align-end text-white" height="200" :src="item.URL" cover>
-      </v-img>
-      <v-card-title>{{ item.DRINKNAME }}</v-card-title>
-      <v-card-subtitle> {{ item.CATEGORY }}/{{ item.ISICE }} </v-card-subtitle>
-      <v-card-text> {{ item.PRICE }}원 </v-card-text>
+  <v-container fluid>
+    <!-- 카테고리 필터 섹션 -->
+    <v-card class="mb-4">
+      <v-card-title>CATEGORY</v-card-title>
       <v-card-actions>
-        <v-btn color="orange">수정</v-btn>
-        <v-btn color="orange">삭제</v-btn>
+        <v-chip
+          color="primary"
+          filter
+          :input-value="isAllSelected"
+          @click="toggleAll"
+          class="ma-2"
+        >
+          ALL
+        </v-chip>
+        <v-chip-group v-model="selectMenu" multiple inline>
+          <v-chip
+            v-for="(item, i) in categoryMenu"
+            :key="i"
+            color="primary"
+            filter
+            :value="item"
+            class="ma-1"
+          >
+            {{ item }}
+          </v-chip>
+        </v-chip-group>
+        <v-spacer></v-spacer>
+        <!-- 음료 추가 버튼 -->
+        <v-btn
+          color="primary"
+          @click="fnInsertDrink"
+          class="mb-4"
+          elevation="2"
+        >
+          Drink Add
+        </v-btn>
       </v-card-actions>
     </v-card>
-  </div>
+
+    <!-- 음료 추가 페이지 -->
+    <v-dialog
+      v-model="isInfoDrink"
+      scrollable
+      :overlay="true"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">Add Drink</span>
+        </v-card-title>
+        <v-card-text>
+          <DrinkInfo @close="popClose" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <!-- 음료 수정 페이지 -->
+    <v-dialog
+      v-model="isDrinkUp"
+      scrollable
+      :overlay="true"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <v-card>
+        <v-card-title>
+          <span class="headline">Edit Drink</span>
+        </v-card-title>
+        <v-card-text>
+          <DrinkUp :drinkId="currentDrinkId" @close="popClose" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <!-- 음료 목록 -->
+    <v-row>
+      <v-col
+        v-for="item in filteredDrinkList"
+        :key="item.DRINKNO"
+        cols="12"
+        sm="6"
+        md="4"
+      >
+        <v-card class="mx-auto" max-width="350">
+          <v-img :src="item.URL" height="200" contain>
+            <v-card-title class="white--text">{{
+              item.DRINKNAME
+            }}</v-card-title>
+          </v-img>
+          <v-card-subtitle class="text-h6">
+            {{ item.CATEGORY }} / {{ item.ISICE }}
+          </v-card-subtitle>
+          <v-card-text class="text-subtitle-1">
+            {{ item.PRICE }}원
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" @click="editDrink(item.DRINKNO)">수정</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
 <script>
+import DrinkUp from "./DrinkUp.vue";
 import DrinkInfo from "./DrinkInfo.vue";
 import axios from "axios";
 
 export default {
   components: {
     DrinkInfo,
+    DrinkUp,
   },
   data() {
     return {
+      categoryMenu: ["커피", "티", "에이드", "스무디"],
+      selectMenu: [],
       isInfoDrink: false,
+      isDrinkUp: false,
+      currentDrinkId: null,
       drinkList: [],
     };
   },
+  computed: {
+    isAllSelected() {
+      return this.selectMenu.length === this.categoryMenu.length;
+    },
+    filteredDrinkList() {
+      if (this.selectMenu.length === 0 || this.isAllSelected) {
+        return this.drinkList;
+      }
+      return this.drinkList.filter((drink) =>
+        this.selectMenu.includes(drink.CATEGORY)
+      );
+    },
+  },
   methods: {
+    popClose() {
+      this.isInfoDrink = false;
+      this.isDrinkUp = false;
+      this.fnGetDrinkList();
+    },
     fnInsertDrink() {
       this.isInfoDrink = !this.isInfoDrink;
     },
+    toggleAll() {
+      if (this.isAllSelected) {
+        this.selectMenu = [];
+      } else {
+        this.selectMenu = [...this.categoryMenu];
+      }
+    },
     async fnGetDrinkList() {
       try {
-        const url = `http://localhost:3000/drinkList`;
+        const url = "http://localhost:3000/drinkList";
         const response = await axios.get(url);
         this.drinkList = response.data;
       } catch (error) {
-        console.error("Error fetching user list", error);
+        console.error("Error fetching drink list", error);
         alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
       }
+    },
+    editDrink(drinkId) {
+      this.isDrinkUp = true;
+      this.currentDrinkId = drinkId;
+      console.log(drinkId);
     },
   },
   mounted() {
@@ -63,3 +173,13 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+/* 스타일 개선을 위한 CSS */
+.v-card {
+  transition: transform 0.3s;
+}
+.v-card:hover {
+  transform: scale(1.02);
+}
+</style>

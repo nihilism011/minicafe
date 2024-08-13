@@ -53,6 +53,12 @@
 <script>
 import axios from "axios";
 export default {
+  props: {
+    drinkId: {
+      type: Number,
+      required: false,
+    },
+  },
   data() {
     return {
       CATEGORY: ["커피", "티", "에이드", "스무디"],
@@ -120,12 +126,22 @@ export default {
       }
 
       try {
-        const url = `http://localhost:3000/drinkIn`;
+        const url = `http://localhost:3000/drinkUp`;
         const response = await axios.post(url, this.inDrink);
         alert(response.data.message);
         this.closeCard();
       } catch (error) {
         console.error("Error updating drink info", error);
+        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    },
+    async drinkSet() {
+      try {
+        const url = `http://localhost:3000/drinkSet?drinkno=${this.drinkId}`;
+        const response = await axios.get(url);
+        this.inDrink = response.data[0];
+      } catch (error) {
+        console.error("Error fetching user list", error);
         alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
       }
     },
