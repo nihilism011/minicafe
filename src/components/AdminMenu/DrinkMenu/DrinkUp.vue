@@ -140,11 +140,15 @@ export default {
         const url = `http://localhost:3000/drinkSet?drinkno=${this.drinkId}`;
         const response = await axios.get(url);
         this.inDrink = response.data[0];
+        console.log(this.inDrink);
       } catch (error) {
         console.error("Error fetching user list", error);
         alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
       }
     },
+  },
+  mounted() {
+    this.drinkSet();
   },
 };
 </script>

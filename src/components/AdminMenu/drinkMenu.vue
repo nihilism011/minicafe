@@ -95,7 +95,12 @@
             {{ item.PRICE }}원
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="editDrink(item.DRINKNO)">수정</v-btn>
+            <v-btn
+              color="primary"
+              @click="editDrink(item.DRINKNO)"
+              :drinkId="currentDrinkId"
+              >수정</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
@@ -104,8 +109,8 @@
 </template>
 
 <script>
-import DrinkUp from "./DrinkUp.vue";
-import DrinkInfo from "./DrinkInfo.vue";
+import DrinkUp from "./DrinkMenu/DrinkUp.vue";
+import DrinkInfo from "./DrinkMenu/DrinkInfo.vue";
 import axios from "axios";
 
 export default {
@@ -173,13 +178,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-/* 스타일 개선을 위한 CSS */
-.v-card {
-  transition: transform 0.3s;
-}
-.v-card:hover {
-  transform: scale(1.02);
-}
-</style>

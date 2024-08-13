@@ -17,35 +17,9 @@
       <v-col cols="auto">
         <v-card class="mx-auto" width="250">
           <v-list v-model:selected="selectedMenu" density="compact" mandatory>
-            <!-- 카페 관리 섹션 -->
             <v-list-subheader>카페 관리</v-list-subheader>
             <v-list-item
-              v-for="(item, i) in items.slice(0, 3)"
-              :key="i"
-              :value="item.value"
-              active-color="primary"
-            >
-              <v-list-item-content>{{ item.title }}</v-list-item-content>
-            </v-list-item>
-
-            <v-divider></v-divider>
-
-            <!-- 게시판 관리 섹션 -->
-            <v-list-subheader>게시판 관리</v-list-subheader>
-            <v-list-item
-              v-for="(item, i) in items.slice(3, 5)"
-              :key="i"
-              :value="item.value"
-              active-color="primary"
-            >
-              <v-list-item-content>{{ item.title }}</v-list-item-content>
-            </v-list-item>
-
-            <v-divider></v-divider>
-
-            <!-- 통계 관리 섹션 -->
-            <v-list-item
-              v-for="(item, i) in items.slice(5)"
+              v-for="(item, i) in menuInfo"
               :key="i"
               :value="item.value"
               active-color="primary"
@@ -56,34 +30,32 @@
         </v-card>
       </v-col>
       <v-col>
-        <userList v-if="selectedMenu == 1" />
-        <drinkMenu v-if="selectedMenu == 2" />
-        <div v-if="selectedMenu == 3">메뉴3</div>
-        <div v-if="selectedMenu == 4">메뉴4</div>
-        <div v-if="selectedMenu == 5">메뉴5</div>
-        <div v-if="selectedMenu == 6">메뉴6</div>
+        <User v-if="selectedMenu == 'user'" />
+        <Drink v-if="selectedMenu == 'drink'" />
+        <div v-if="selectedMenu == 'order'">메뉴3</div>
+        <div v-if="selectedMenu == 'board'">메뉴4</div>
+        <div v-if="selectedMenu == 'statistics'">메뉴5</div>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
-import userList from "./AdminMenu/userList.vue";
-import drinkMenu from "./AdminMenu/drinkMenu.vue";
+import User from "./AdminMenu/UserMenu.vue";
+import Drink from "./AdminMenu/DrinkMenu.vue";
 export default {
   components: {
-    userList,
-    drinkMenu,
+    User,
+    Drink,
   },
   data: () => ({
-    selectedMenu: 1,
-    items: [
-      { title: "고객", value: 1 },
-      { title: "음료", value: 2 },
-      { title: "주문", value: 3 },
-      { title: "공지사항", value: 4 },
-      { title: "리뷰", value: 5 },
-      { title: "통계 관리", value: 6 },
+    selectedMenu: "user",
+    menuInfo: [
+      { title: "고객", value: "user" },
+      { title: "음료", value: "drink" },
+      { title: "주문", value: "order" },
+      { title: "게시판", value: "board" },
+      { title: "통계 관리", value: "statistics" },
     ],
   }),
 };

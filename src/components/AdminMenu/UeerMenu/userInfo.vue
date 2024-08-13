@@ -1,62 +1,106 @@
 <template>
   <v-card class="pa-4">
     <v-card-title> User Information </v-card-title>
-    <v-card-subtitle class="pb-4">
+    <v-card-item class="pb-4">
       <v-row>
-        <v-col cols="12" md="6">
-          <v-text-field
+        <v-col cols="6" class="mt-4">
+          <v-textarea
             v-model="users.USERID"
             label="User ID"
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
             disabled
-          ></v-text-field>
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="6" class="mt-4">
+          <v-textarea
             v-model="users.PASSWORD"
             label="Password"
-          ></v-text-field>
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
             v-model="users.USERNAME"
             label="User Name"
-          ></v-text-field>
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
             v-model="users.PHONENUM"
             label="Phone Number"
-          ></v-text-field>
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
             v-model="users.BIRTH.split('T')[0]"
             label="Birth"
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
             disabled
-          ></v-text-field>
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
             v-model="users.CREATEDATE.split('T')[0]"
             label="Create Date"
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
             disabled
-          ></v-text-field>
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="users.STATUS" label="Status"></v-text-field>
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
+            v-model="users.STATUS"
+            label="Status"
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
+          ></v-textarea>
         </v-col>
-        <v-col cols="12" md="6">
-          <v-text-field v-model="users.STAMP" label="Stamp"></v-text-field>
+
+        <v-col cols="6" class="mt-1">
+          <v-textarea
+            v-model="users.STAMP"
+            label="Stamp"
+            row-height="15"
+            rows="1"
+            variant="outlined"
+            auto-grow
+          ></v-textarea>
         </v-col>
       </v-row>
-    </v-card-subtitle>
-    <v-container>
-      <v-row>
-        <v-btn @click="updateUser">수정</v-btn>
-        <v-btn @click="deleteUser">삭제</v-btn>
-        <v-btn @click="closeCard">닫기</v-btn>
-      </v-row>
-    </v-container>
+    </v-card-item>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="updateUser" color="primary" class="mx-2">수정</v-btn>
+      <v-btn @click="deleteUser" color="error" class="mx-2">삭제</v-btn>
+      <v-btn @click="closeCard" color="secondary" class="mx-2">닫기</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -132,7 +176,6 @@ export default {
           BIRTH: String(BIRTH).trim(),
           STATUS: String(STATUS).trim(),
           STAMP: String(STAMP).trim(),
-          CREATEDATE: this.users.CREATEDATE,
         };
         const response = await axios.post(url, setUser);
         alert(response.data.message);

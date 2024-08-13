@@ -147,40 +147,20 @@ app.post("/userDelete", (req, res) => {
     res.json({ message: "회원이 삭제 되었습니다." });
   });
 });
-
-app.post("/drinkIn", (req, res) => {
-  const { DRINKNAME, EXPLAN, URL, CATEGORY, PRICE, ISICE } = req.body;
-  const query =
-    `INSERT INTO drink (DRINKNAME,EXPLAN,URL,CATEGORY,PRICE,ISICE) ` +
-    `VALUES( ? , ? , ? , ? , ? , ? )`;
-  connection.query(
-    query,
-    [DRINKNAME, EXPLAN, URL, CATEGORY, PRICE, ISICE],
-    (error, results, fields) => {
-      if (error) {
-        console.error("Error executing query", error);
-        res.status(500).send(`Error executing query${JSON.stringify(error)}`);
-
-        return;
-      }
-      res.json({ message: "음료가 추가 되었습니다." });
-    }
-  );
-});
-
-app.get("/drinkSet", (req, res) => {
-  const { drinkno } = req.query;
-  const query = `SELECT * FROM DRINK WHERE DRINKNO = ?`;
-
-  connection.query(query, [drinkno], (error, results, fields) => {
+app.post("/boardup", (req, res) => {
+  const { userid, contents } = req.body;
+  const query = `INSERT INTO COMMENTBOARD (USER_ID, COMMENT ) VALUES (?, ? )`;
+  connection.query(query, [userid, contents], (error, results, fields) => {
     if (error) {
       console.error("Error executing query", error);
       res.status(500).send(`Error executing query${JSON.stringify(error)}`);
+
       return;
     }
-    res.json(results);
+    res.json({ message: "입력이 완료 되었습니다." });
   });
 });
+
 app.post("/login", (req, res) => {
   const { userid, pwd } = req.body;
   const query = `SELECT USER_NAME FROM USER WHERE USER_ID = ? AND PWD = ? `;
