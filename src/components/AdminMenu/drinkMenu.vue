@@ -45,6 +45,7 @@
       :overlay="true"
       max-width="500px"
       transition="dialog-transition"
+      persistent
     >
       <v-card>
         <v-card-title>
@@ -62,6 +63,7 @@
       :overlay="true"
       max-width="500px"
       transition="dialog-transition"
+      persistent
     >
       <v-card>
         <v-card-title>

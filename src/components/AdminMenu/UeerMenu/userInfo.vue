@@ -97,9 +97,9 @@
     </v-card-item>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn @click="updateUser" color="primary" class="mx-2">수정</v-btn>
-      <v-btn @click="deleteUser" color="error" class="mx-2">삭제</v-btn>
-      <v-btn @click="closeCard" color="secondary" class="mx-2">닫기</v-btn>
+      <v-btn @click="updateUser" color="primary" class="mx-2">Update</v-btn>
+      <v-btn @click="deleteUser" color="error" class="mx-2">Delete</v-btn>
+      <v-btn @click="closeCard" color="secondary" class="mx-2">Close</v-btn>
     </v-card-actions>
   </v-card>
 </template>

@@ -115,6 +115,7 @@
       :overlay="false"
       max-width="500px"
       transition="dialog-transition"
+      persistent
     >
       <UserInfo v-if="isInfoUser" :infoUser="infoUser" @close="popclose" />
     </v-dialog>
@@ -122,7 +123,6 @@
 </template>
 
 <script>
-import axios from "axios";
 import UserInfo from "./UeerMenu/userInfo.vue";
 
 export default {
@@ -148,33 +148,32 @@ export default {
       this.fnGetUserList();
     },
     async fnGetUserList() {
-      try {
-        const url = `http://localhost:3000/userList?keyword=${this.nameKeyword}&odr=${this.orderbymenu}&odrt=${this.orderbyType}&page=${this.pageNum}&limit=${this.pageLimit}`;
-        const url2 = `http://localhost:3000/userListCNT?keyword=${this.nameKeyword}`;
+      const url = `/userList`;
+      const url2 = `/userListCNT`;
 
-        const [response, response2] = await Promise.all([
-          axios.get(url),
-          axios.get(url2),
-        ]);
-        console.log(url);
-        this.userList = response.data;
-        const listCnt = response2.data[0].CNT;
-        this.userCNT = Math.ceil(listCnt / this.pageLimit);
-      } catch (error) {
-        console.error("Error fetching user list", error);
-        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-      }
+      const params = {
+        keyword: this.nameKeyword,
+        odr: this.orderbymenu,
+        odrt: this.orderbyType,
+        page: this.pageNum,
+        limit: this.pageLimit,
+      };
+
+      const [response, response2] = await Promise.all([
+        this.$axios.get(url, { params }),
+        this.$axios.get(url2, { params: { keyword: this.nameKeyword } }),
+      ]);
+
+      this.userList = response.data;
+      const listCnt = response2.data[0].CNT;
+      this.userCNT = Math.ceil(listCnt / this.pageLimit);
     },
+
     async fnUserInfo(userId) {
-      try {
-        const url = `http://localhost:3000/userInfo?userid=${userId}`;
-        const response = await axios.get(url);
-        this.infoUser = response.data[0];
-        this.isInfoUser = true;
-      } catch (error) {
-        console.error("Error fetching user info", error);
-        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-      }
+      const url = `http://localhost:3000/userInfo?userid=${userId}`;
+      const response = await this.$axios.get(url);
+      this.infoUser = response.data[0];
+      this.isInfoUser = true;
     },
     search() {
       this.pageNum = 1; // 검색 시 페이지 번호를 1로 초기화

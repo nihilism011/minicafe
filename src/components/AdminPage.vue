@@ -42,7 +42,7 @@
 
 <script>
 import User from "./AdminMenu/UserMenu.vue";
-import Drink from "./AdminMenu/DrinkMenu.vue";
+import Drink from "./AdminMenu/drinkMenu.vue";
 export default {
   components: {
     User,

@@ -41,17 +41,15 @@
         <v-radio color="blue" label="ICE" value="ICE"></v-radio>
       </v-radio-group>
     </v-row>
-    <v-container>
-      <v-row>
-        <v-btn @click="updateDrink">수정</v-btn>
-        <v-btn @click="deleteUser">삭제</v-btn>
-        <v-btn @click="closeCard">닫기</v-btn>
-      </v-row>
-    </v-container>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="insertDrink" color="primary" class="mx-2">Insert</v-btn>
+      <v-btn @click="closeCard" color="secondary" class="mx-2">Close</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
-import axios from "axios";
 export default {
   data() {
     return {
@@ -113,21 +111,14 @@ export default {
       return true;
     },
 
-    async updateDrink() {
-      // Validate the drink info before making the request
+    async insertDrink() {
       if (!this.validateAndTrimDrinkInfo()) {
-        return; // Stop if validation fails
+        return;
       }
-
-      try {
-        const url = `http://localhost:3000/drinkIn`;
-        const response = await axios.post(url, this.inDrink);
-        alert(response.data.message);
-        this.closeCard();
-      } catch (error) {
-        console.error("Error updating drink info", error);
-        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-      }
+      const url = `/drinkIn`;
+      const response = await this.$axios.post(url, this.inDrink);
+      alert(response.data.message);
+      this.closeCard();
     },
   },
 };

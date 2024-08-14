@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-5">
-    <v-card-title> Drink Insert </v-card-title>
+    <v-card-title> Drink No.{{ drinkId }} </v-card-title>
     <v-row cols="12" md="6">
       <v-text-field
         v-model="inDrink.DRINKNAME"
@@ -41,17 +41,16 @@
         <v-radio color="blue" label="ICE" value="ICE"></v-radio>
       </v-radio-group>
     </v-row>
-    <v-container>
-      <v-row>
-        <v-btn @click="updateDrink">수정</v-btn>
-        <v-btn @click="deleteUser">삭제</v-btn>
-        <v-btn @click="closeCard">닫기</v-btn>
-      </v-row>
-    </v-container>
+
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn @click="updateDrink" color="primary" class="mx-2">Update</v-btn>
+      <v-btn @click="deleteDrink" color="error" class="mx-2">Delete</v-btn>
+      <v-btn @click="closeCard" color="secondary" class="mx-2">Close</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script>
-import axios from "axios";
 export default {
   props: {
     drinkId: {
@@ -120,31 +119,29 @@ export default {
     },
 
     async updateDrink() {
-      // Validate the drink info before making the request
       if (!this.validateAndTrimDrinkInfo()) {
-        return; // Stop if validation fails
+        return;
       }
-
-      try {
-        const url = `http://localhost:3000/drinkUp`;
-        const response = await axios.post(url, this.inDrink);
-        alert(response.data.message);
-        this.closeCard();
-      } catch (error) {
-        console.error("Error updating drink info", error);
-        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
-      }
+      const url = `/drinkUp`;
+      const response = await this.$axios.post(url, this.inDrink);
+      alert(response.data.message);
+      this.closeCard();
     },
     async drinkSet() {
-      try {
-        const url = `http://localhost:3000/drinkSet?drinkno=${this.drinkId}`;
-        const response = await axios.get(url);
-        this.inDrink = response.data[0];
-        console.log(this.inDrink);
-      } catch (error) {
-        console.error("Error fetching user list", error);
-        alert("서버 오류가 발생했습니다. 다시 시도해주세요.");
+      const url = `/drinkSet?drinkno=${this.drinkId}`;
+      const response = await this.$axios.get(url);
+      this.inDrink = response.data[0];
+      console.log(this.inDrink);
+    },
+    async deleteDrink() {
+      if (!confirm("삭제하시겠습니까?")) {
+        return;
       }
+      const response = await this.$axios.post("/deleteDrink", {
+        drinkNo: this.drinkId,
+      });
+      alert(response.data.message);
+      this.closeCard();
     },
   },
   mounted() {

@@ -1,37 +1,58 @@
 <template>
   <v-app>
+    <Top_Menu_Bar @login="fnLogin" @signUp="fnSignUp" />
+    <SideNavi />
     <v-main>
-      <Top_Menu_Bar />
-      <MainPage />
-      <DrinkPage />
+      <WelcomePage />
+      <OrderPage />
       <ReviewPage />
-      <AdminPage />
     </v-main>
-  </v-app>
-  <v-app>
-    <v-main> </v-main>
+    <AdminPage v-if="false" />
+    <v-dialog
+      v-model="isDialog"
+      scrollable
+      :overlay="false"
+      max-width="500px"
+      transition="dialog-transition"
+      persistent
+    >
+      <SignUpPage v-if="isSignUp" @close="popclose" />
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
-import Top_Menu_Bar from "./components/Top_Menu_Bar.vue";
-import DrinkPage from "./components/DrinkPage.vue";
-import MainPage from "./components/MainPage.vue";
-import ReviewPage from "./components/ReviewPage.vue";
+import Top_Menu_Bar from "./components/MainPageCom/Top_Menu_Bar.vue";
+import SideNavi from "./components/MainPageCom/SideNavi.vue";
 import AdminPage from "./components/AdminPage.vue";
+import ReviewPage from "./components/ReviewPage.vue";
+import SignUpPage from "./components/MainPageCom/SignUpPage.vue";
 export default {
   name: "App",
 
   components: {
     Top_Menu_Bar,
-    MainPage,
-    DrinkPage,
-    ReviewPage,
     AdminPage,
+    SideNavi,
+    ReviewPage,
+    SignUpPage,
   },
 
   data: () => ({
-    isview: "mainPage",
+    isDialog: false,
+    isLogin: false,
+    isSignUp: false,
   }),
+  methods: {
+    popclose() {
+      this.isDialog = false;
+      this.isLogin = false;
+      this.isSignUp = false;
+    },
+    fnSignUp() {
+      this.isDialog = true;
+      this.isSignUp = true;
+    },
+  },
 };
 </script>
