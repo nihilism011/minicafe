@@ -145,7 +145,19 @@ app.post("/userInsert", (req, res) => {
     }
   );
 });
+//아이디 중복 체크
+app.get("/idCheck", (req, res) => {
+  const { id } = req.query;
+  const query = `SELECT COUNT(*) cnt FROM user WHERE USERID = ?`;
 
+  connection.query(query, [id], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    const isuser = results[0].cnt == "0";
+    res.json(isuser);
+  });
+});
 // 사용자 삭제
 app.post("/userDelete", (req, res) => {
   const { USERID } = req.body;

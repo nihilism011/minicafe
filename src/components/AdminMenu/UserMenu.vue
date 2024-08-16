@@ -170,7 +170,7 @@ export default {
     },
 
     async fnUserInfo(userId) {
-      const url = `http://localhost:3000/userInfo?userid=${userId}`;
+      const url = `/userInfo?userid=${userId}`;
       const response = await this.$axios.get(url);
       this.infoUser = response.data[0];
       this.isInfoUser = true;

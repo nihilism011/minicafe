@@ -4,6 +4,7 @@ import vuetify from "./plugins/vuetify";
 import { loadFonts } from "./plugins/webfontloader";
 import axiosInstance from "./plugins/axios";
 import HInput from "./components/h-components/h-input.vue";
+import "vuetify/styles";
 loadFonts(); // 폰트 로드를 먼저 수행
 
 const app = createApp(App);

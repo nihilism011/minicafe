@@ -113,7 +113,6 @@
 <script>
 import DrinkUp from "./DrinkMenu/DrinkUp.vue";
 import DrinkInfo from "./DrinkMenu/DrinkInfo.vue";
-import axios from "axios";
 
 export default {
   components: {
@@ -161,8 +160,8 @@ export default {
     },
     async fnGetDrinkList() {
       try {
-        const url = "http://localhost:3000/drinkList";
-        const response = await axios.get(url);
+        const url = "/drinkList";
+        const response = await this.$axios.get(url);
         this.drinkList = response.data;
       } catch (error) {
         console.error("Error fetching drink list", error);
