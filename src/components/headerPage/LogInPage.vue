@@ -23,6 +23,7 @@
                           class="mt-16"
                           v-model="userId"
                           @input="removeSpacesver2('userId')"
+                          @keyup.enter="fnLogIn"
                         />
                         <v-text-field
                           label="Password"
@@ -33,6 +34,7 @@
                           type="password"
                           v-model="pwd"
                           @input="removeSpacesver2('pwd')"
+                          @keyup.enter="fnLogIn"
                         />
                         <v-row align-content-end>
                           <v-spacer></v-spacer>
@@ -48,6 +50,7 @@
                           color="blue"
                           block
                           tile
+                          @click="fnLogIn"
                           >Log in</v-btn
                         >
                       </v-col>
@@ -62,12 +65,15 @@
                       </h3>
                     </v-card-text>
                     <div class="text-center">
-                      <v-btn style="color: #2196f3" @click="step++"
+                      <v-btn
+                        width="150px"
+                        style="color: #2196f3"
+                        @click="step++"
                         >SIGN UP</v-btn
                       >
                     </div>
                     <div class="text-center mt-3">
-                      <v-btn style="color: #f44336" @click="popclose"
+                      <v-btn width="150px" color="primary" @click="popclose"
                         >Close</v-btn
                       >
                     </div>
@@ -85,8 +91,16 @@
                       </h3>
                     </v-card-text>
                     <div class="text-center">
-                      <v-btn style="color: #2196f3" @click="step--"
+                      <v-btn
+                        width="150px"
+                        style="color: #2196f3"
+                        @click="step--"
                         >Log in</v-btn
+                      >
+                    </div>
+                    <div class="text-center mt-3">
+                      <v-btn width="150px" color="primary" @click="popclose"
+                        >Close</v-btn
                       >
                     </div>
                   </div>
@@ -244,7 +258,7 @@ export default {
   },
   methods: {
     popclose() {
-      this.$emit('close');
+      this.$emit("close");
     },
     fnDoublecheck(field) {
       this.removeSpaces(field);
@@ -275,6 +289,7 @@ export default {
         this.idmsg = "red";
       }
     },
+
     fnPwdCheck() {
       if (!this.PASSWORDCHECK) {
         this.pwmsg = "";
@@ -296,6 +311,29 @@ export default {
     removeNotNum(field) {
       this.users[field] = this.users[field].replace(/\D+/g, "");
     },
+    async fnLogIn() {
+      if (!this.userId || !this.pwd) {
+        alert("아이디와 패스워드를 입력해 주세요.");
+        return;
+      }
+      const responseV = await this.$axios.get(`/idCheck?id=${this.userId}`);
+      if (responseV.data) {
+        alert("아이디가 존재하지 않습니다.");
+        return;
+      }
+      const user = { userid: this.userId, pwd: this.pwd };
+      const response = await this.$axios.post("/login", user);
+      if (!response.data) {
+        alert("비밀번호를 확인해주세요.");
+        return;
+      }
+      sessionStorage.setItem("userId", response.data.USERID);
+      sessionStorage.setItem("userName", response.data.USERNAME);
+      sessionStorage.setItem("userStatus", response.data.STATUS);
+
+      this.$emit("logOn");
+      this.popclose();
+    },
     async fnSignup() {
       if (this.idmsg != "blue") {
         alert("아이디를 확인해주세요.");
@@ -315,9 +353,11 @@ export default {
       }
       if (!this.users.BIRTH) {
         alert("생년월일을 입력해주세요.");
+        return;
       }
       if (!this.agree) {
         alert("약관에 동의해주세요");
+        return;
       }
 
       console.log(this.users);

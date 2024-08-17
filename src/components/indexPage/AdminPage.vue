@@ -1,18 +1,5 @@
 <template>
   <v-container>
-    <v-row class="top-bar">
-      <v-col cols="2" class="align-content-center">
-        <v-img src="../assets/logo.png" max-height="60"></v-img>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-col cols="4" class="text-md-center" style="font-size: 40px">
-        <v-sheet>Admin Page</v-sheet>
-      </v-col>
-      <v-spacer></v-spacer>
-      <v-col cols="auto" class="align-content-center">
-        <v-btn>Logout</v-btn>
-      </v-col>
-    </v-row>
     <v-row>
       <v-col cols="auto">
         <v-card class="mx-auto" width="250">
@@ -41,8 +28,8 @@
 </template>
 
 <script>
-import User from "./AdminMenu/UserMenu.vue";
-import Drink from "./AdminMenu/drinkMenu.vue";
+import User from "../AdminMenu/UserMenu.vue";
+import Drink from "../AdminMenu/drinkMenu.vue";
 export default {
   components: {
     User,

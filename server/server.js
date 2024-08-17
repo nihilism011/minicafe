@@ -55,8 +55,7 @@ app.get("/userList", (req, res) => {
   const query = `
     SELECT * 
     FROM USER 
-    WHERE STATUS = 'user' 
-    AND USERNAME LIKE ? 
+    WHERE USERNAME LIKE ? 
     ORDER BY ${orderColumn} ${orderType} 
     LIMIT ?, ?
   `;
@@ -76,7 +75,7 @@ app.get("/userList", (req, res) => {
 // 사용자 수 조회
 app.get("/userListCNT", (req, res) => {
   const { keyword } = req.query;
-  const query = `SELECT COUNT(*) CNT FROM USER WHERE STATUS = 'user' AND USERNAME LIKE ?`;
+  const query = `SELECT COUNT(*) CNT FROM USER WHERE USERNAME LIKE ?`;
   const searchKeyword = `%${keyword}%`;
 
   connection.query(query, [searchKeyword], (error, results) => {
@@ -234,7 +233,7 @@ app.get("/drinkSet", (req, res) => {
 // 로그인
 app.post("/login", (req, res) => {
   const { userid, pwd } = req.body;
-  const query = `SELECT USER_NAME FROM USER WHERE USER_ID = ? AND PWD = ?`;
+  const query = `SELECT USERID, USERNAME, STATUS FROM USER WHERE USERID = ? AND PASSWORD = ?`;
 
   connection.query(query, [userid, pwd], (error, results) => {
     if (error) {

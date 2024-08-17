@@ -88,7 +88,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in userList" :key="item.USERID">
+        <tr
+          v-for="(item, index) in userList"
+          :key="item.USERID"
+          :class="
+            item.STATUS == 'admin'
+              ? 'blue'
+              : item.STATUS == 'banuser'
+              ? 'red'
+              : 'nomal'
+          "
+        >
           <td>{{ index + 1 + (pageNum - 1) * pageLimit }}</td>
           <td>{{ item.USERID }}</td>
           <td>{{ item.USERNAME }}</td>
@@ -204,6 +214,20 @@ export default {
 .fixed-table {
   table-layout: fixed; /* 테이블의 레이아웃을 고정하여 열 너비가 변경되지 않도록 함 */
   width: 100%; /* 테이블 너비를 100%로 설정하여 부모 컨테이너에 맞춤 */
+  border-collapse: separate;
+  border-spacing: 0 8px;
+}
+.fixed-table th,
+.fixed-table td {
+  padding: 12px 16px; /* 셀 패딩을 추가하여 공간을 확보 */
+  text-align: left; /* 텍스트를 왼쪽 정렬 */
+  vertical-align: middle; /* 텍스트를 중간 정렬 */
+  border-bottom: 1px solid #ddd; /* 셀 하단에 얇은 테두리 추가 */
+}
+
+.fixed-table tbody tr {
+  transition: background-color 0.3s ease; /* 행 배경색 변화에 대한 애니메이션 추가 */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* 행에 살짝 그림자 추가 */
 }
 
 .column-no {
@@ -236,9 +260,28 @@ export default {
 
 .column-actions {
   width: 120px; /* Actions 열의 고정 너비 */
+  text-align: center;
 }
 
 .sorted-column {
-  background-color: #f5f5f5; /* 현재 정렬된 컬럼에 대해 백그라운드 색상 변경 */
+  background-color: #2195f31f; /* 현재 정렬된 컬럼에 대해 백그라운드 색상 변경 */
+}
+.blue {
+  background-color: #e3f2fd;
+}
+.blue:hover {
+  background-color: #cee8fa;
+}
+.nomal {
+  background-color: #ffffff;
+}
+.nomal:hover {
+  background-color: #f0f8ff;
+}
+.red {
+  background-color: #ffebee;
+}
+.red:hover {
+  background-color: #ffb0c4;
 }
 </style>
