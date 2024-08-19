@@ -82,6 +82,7 @@ app.get("/userListCNT", (req, res) => {
     if (error) {
       return next(error);
     }
+    console.log(results);
     res.json(results);
   });
 });
@@ -109,7 +110,17 @@ app.get("/drinkList", (req, res) => {
     res.json(results);
   });
 });
-
+// 음료 하나 갖고오기
+app.get("/getDrink", (req, res) => {
+  const { drinkid } = req.query;
+  const query = `SELECT * FROM DRINK WHERE DRINKNO = ?`;
+  connection.query(query, [drinkid], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    res.json(results);
+  });
+});
 // 사용자 업데이트
 app.post("/userUpdate", (req, res) => {
   const { USERID, PASSWORD, USERNAME, PHONENUM, BIRTH, STATUS, STAMP } =
@@ -144,6 +155,33 @@ app.post("/userInsert", (req, res) => {
     }
   );
 });
+// 주문 입력
+app.post("/order", (req, res) => {
+  const { userId, count, drinkNo } = req.body;
+  const query = `INSERT INTO ordermenu(USERID,DRINKNO,EA,ORDERTIME) VALUES(?,?,?,NOW())`;
+
+  connection.query(query, [userId, drinkNo, count], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    console.log(userId);
+    res.json({ message: "주문이 완료되었습니다." });
+  });
+});
+//스탬프 업
+app.post("/stamp", (req, res) => {
+  const { userId, count } = req.body;
+  const query = `UPDATE user SET STAMP = STAMP + ? WHERE USERID = ?`;
+
+  connection.query(query, [count, userId], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    console.log(userId);
+    res.json({ message: "" });
+  });
+});
+
 //아이디 중복 체크
 app.get("/idCheck", (req, res) => {
   const { id } = req.query;

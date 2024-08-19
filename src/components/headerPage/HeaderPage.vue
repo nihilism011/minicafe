@@ -2,7 +2,11 @@
   <v-container fluid max-width=" 100%" class="mb-5">
     <v-row>
       <v-col cols="2" class="pa-0">
-        <v-img src="../../assets/cafeLogo.png" height="100px"></v-img>
+        <v-img
+          draggable="false"
+          src="../../assets/cafeLogo.png"
+          height="100px"
+        ></v-img>
       </v-col>
       <v-col colss="7" class="pa-0">
         <v-container>
@@ -39,7 +43,7 @@
           style="color: #2196f3"
           class="customBtn"
           v-if="logInfo.userId"
-          @click="fnUserInfoView"
+          @click="$router.push('/userinfopage')"
           >User Info
         </v-btn>
         <v-btn
@@ -145,5 +149,9 @@ export default {
 }
 .menus:hover {
   background-color: #2195f328;
+}
+.title {
+  cursor: default;
+  user-select: none;
 }
 </style>

@@ -19,4 +19,4 @@ export default {
   data: () => ({}),
 };
 </script>
-<style lang="sass"></style>
+<style lang="scss"></style>

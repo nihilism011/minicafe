@@ -30,21 +30,62 @@
 
     <!-- 음료 목록 -->
     <v-row>
-      <v-col class="d-flex"> </v-col>
+      <v-col cols="12" class="d-flex flex-wrap">
+        <div
+          class="DrinkCard"
+          v-for="item in filteredDrinkList"
+          :key="item.DRINKNO"
+          @click="infoDialog(item.DRINKNO)"
+        >
+          <div class="imgCard">
+            <img
+              class="imgClass"
+              draggable="false"
+              :src="item.URL"
+              :alt="item.DRINKNAME"
+            />
+            <v-chip
+              :color="item.ISICE == 'ICE' ? 'blue' : 'red'"
+              class="isIce"
+              >{{ item.ISICE }}</v-chip
+            >
+          </div>
+          <h3 class="nonSelect">{{ item.DRINKNAME }}</h3>
+          <div>{{ item.PRICE }}원</div>
+        </div>
+      </v-col>
     </v-row>
+    <v-dialog
+      v-model="isInfoDrink"
+      scrollable
+      :overlay="false"
+      max-width="500px"
+      transition="dialog-transition"
+    >
+      <DrinkDialog
+        v-if="isInfoDrink"
+        :selectDrink="selectDrink"
+        @close="popclose"
+      />
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
+import DrinkDialog from "./DrinkDialog.vue";
 export default {
-  components: {},
+  components: {
+    DrinkDialog,
+  },
   data() {
     return {
       categoryMenu: ["커피", "티", "에이드", "스무디"],
       selectMenu: [],
+      isClick: false,
       isInfoDrink: false,
       isDrinkUp: false,
       drinkList: [],
+      selectDrink: {},
     };
   },
   computed: {
@@ -61,6 +102,15 @@ export default {
     },
   },
   methods: {
+    popclose() {
+      this.isInfoDrink = false;
+    },
+    async infoDialog(DRINKNO) {
+      const response = await this.$axios("/getDrink?drinkid=" + DRINKNO);
+      this.selectDrink = response.data[0];
+      console.log(response.data[0]);
+      this.isInfoDrink = true;
+    },
     toggleAll() {
       if (this.isAllSelected) {
         this.selectMenu = [];
@@ -84,3 +134,41 @@ export default {
   },
 };
 </script>
+<style>
+.isIce {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.category {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.nonSelect {
+  user-select: none;
+  cursor: default;
+}
+.imgClass {
+  width: 250px;
+  height: 250px;
+}
+.imgCard {
+  position: relative;
+  width: 250px;
+  height: 250px;
+}
+.DrinkCard {
+  height: 300px;
+  width: 250px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+.DrinkCard:hover {
+  transform: scale(1.05);
+  transition: all 0.3s;
+}
+</style>

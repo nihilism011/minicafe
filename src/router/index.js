@@ -3,7 +3,7 @@ import MainPage from "@/components/indexPage/MainPage.vue";
 import DrinkPage from "@/components/indexPage/DrinkPage.vue";
 import ReviewPage from "@/components/indexPage/ReviewPage.vue";
 import AdminPage from "@/components/indexPage/AdminPage.vue";
-
+import UserInfo from "@/components/indexPage/UserInfo.vue";
 const router = createRouter({
   history: createWebHistory(""),
   routes: [
@@ -11,6 +11,11 @@ const router = createRouter({
       path: "/",
       name: "",
       component: MainPage,
+    },
+    {
+      path: "/userinfopage",
+      name: "userinfo",
+      component: UserInfo,
     },
     {
       path: "/MainPage",
