@@ -19,7 +19,7 @@
       <v-col>
         <User v-if="selectedMenu == 'user'" />
         <Drink v-if="selectedMenu == 'drink'" />
-        <div v-if="selectedMenu == 'order'">메뉴3</div>
+        <OrderMenu v-if="selectedMenu == 'order'" />
         <div v-if="selectedMenu == 'board'">메뉴4</div>
         <div v-if="selectedMenu == 'statistics'">메뉴5</div>
       </v-col>
@@ -30,8 +30,10 @@
 <script>
 import User from "../AdminMenu/UserMenu.vue";
 import Drink from "../AdminMenu/drinkMenu.vue";
+import OrderMenu from "../AdminMenu/OrderMenu.vue";
 export default {
   components: {
+    OrderMenu,
     User,
     Drink,
   },
@@ -42,7 +44,6 @@ export default {
       { title: "음료", value: "drink" },
       { title: "주문", value: "order" },
       { title: "게시판", value: "board" },
-      { title: "통계 관리", value: "statistics" },
     ],
   }),
 };

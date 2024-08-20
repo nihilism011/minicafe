@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <Top_Menu_Bar />
+    <Top_Menu_Bar ref="reload" />
     <v-main>
-      <RouterView />
+      <RouterView @logout="fnir" @kiki="fniz" />
     </v-main>
   </v-app>
 </template>
@@ -17,6 +17,14 @@ export default {
   },
 
   data: () => ({}),
+  methods: {
+    fnir() {
+      this.$refs.reload.fnPropLogOut();
+    },
+    fniz() {
+      this.$refs.reload.fnLogOn();
+    },
+  },
 };
 </script>
 <style lang="scss"></style>

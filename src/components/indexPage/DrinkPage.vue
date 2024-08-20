@@ -120,7 +120,7 @@ export default {
     },
     async fnGetDrinkList() {
       try {
-        const url = "/drinkList";
+        const url = "/drinkList?drdr=";
         const response = await this.$axios.get(url);
         this.drinkList = response.data;
       } catch (error) {

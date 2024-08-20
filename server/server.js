@@ -82,7 +82,6 @@ app.get("/userListCNT", (req, res) => {
     if (error) {
       return next(error);
     }
-    console.log(results);
     res.json(results);
   });
 });
@@ -102,7 +101,7 @@ app.get("/userInfo", (req, res) => {
 
 // 음료 목록 조회
 app.get("/drinkList", (req, res) => {
-  const query = `SELECT * FROM DRINK`;
+  const query = `SELECT * FROM DRINK `;
   connection.query(query, [], (error, results) => {
     if (error) {
       return next(error);
@@ -121,7 +120,7 @@ app.get("/getDrink", (req, res) => {
     res.json(results);
   });
 });
-// 사용자 업데이트
+// 관리자용 사용자 업데이트
 app.post("/userUpdate", (req, res) => {
   const { USERID, PASSWORD, USERNAME, PHONENUM, BIRTH, STATUS, STAMP } =
     req.body;
@@ -130,6 +129,23 @@ app.post("/userUpdate", (req, res) => {
   connection.query(
     query,
     [PASSWORD, USERNAME, PHONENUM, BIRTH, STATUS, STAMP, USERID],
+    (error, results) => {
+      if (error) {
+        return next(error);
+      }
+      res.json({ message: "회원정보 수정이 완료되었습니다." });
+    }
+  );
+});
+
+// 사용자용 사용자 업데이트
+app.post("/usersUpdate", (req, res) => {
+  const { USERID, PASSWORD, USERNAME, PHONENUM } = req.body;
+  const query = `UPDATE USER SET PASSWORD = ?, USERNAME = ?, PHONENUM = ? WHERE USERID = ?`;
+
+  connection.query(
+    query,
+    [PASSWORD, USERNAME, PHONENUM, USERID],
     (error, results) => {
       if (error) {
         return next(error);
@@ -164,7 +180,6 @@ app.post("/order", (req, res) => {
     if (error) {
       return next(error);
     }
-    console.log(userId);
     res.json({ message: "주문이 완료되었습니다." });
   });
 });
@@ -177,7 +192,6 @@ app.post("/stamp", (req, res) => {
     if (error) {
       return next(error);
     }
-    console.log(userId);
     res.json({ message: "" });
   });
 });
@@ -205,6 +219,57 @@ app.post("/userDelete", (req, res) => {
       return next(error);
     }
     res.json({ message: "회원이 삭제 되었습니다." });
+  });
+});
+//주문 조회 유저별
+app.get("/orderUser", (req, res) => {
+  const query = `SELECT USERID userId, SUM(EA) sum FROM ordermenu GROUP BY userId ORDER BY sum desc;`;
+  connection.query(query, [], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    res.json(results);
+  });
+});
+// 특정 유저 주문 조회
+app.get("/orderUserId", (req, res) => {
+  const { userid } = req.query;
+  const query = `SELECT d.DRINKName,d.URL, uc.cnt FROM drink AS d INNER JOIN (SELECT DRINKNO, SUM(EA) AS cnt FROM ordermenu WHERE USERID = '${userid}' GROUP BY DRINKNO) AS uc ON uc.DRINKNO = d.DRINKNO ORDER BY cnt desc`;
+
+  console.log(query);
+  connection.query(query, [], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    res.json(results);
+  });
+});
+
+// 특정 음료 주문 조회
+app.get("/orderDrinkId", (req, res) => {
+  const { drinkno } = req.query;
+  const query = `SELECT k.userid,u.USERNAME,k.cnt FROM (SELECT USERID userid, SUM(EA) cnt FROM ordermenu WHERE DRINKNO = ${drinkno} GROUP BY USERID) k LEFT JOIN user u ON u.USERID = k.userid`;
+
+  console.log(query);
+  connection.query(query, [], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    res.json(results);
+  });
+});
+//주문 조회 음료별
+app.get("/orderDrink", (req, res) => {
+  const query =
+    "SELECT d.DRINKNAME AS drinkName, dcnt.drinkNo AS drinkNo, dcnt.s AS cnt " +
+    "FROM drink as d " +
+    "INNER JOIN (SELECT DRINKNO as drinkNo, SUM(EA) as s FROM ordermenu GROUP BY drinkNo) as dcnt " +
+    "ON dcnt.drinkNo = d.DRINKNO ORDER BY cnt DESC";
+  connection.query(query, [], (error, results) => {
+    if (error) {
+      return next(error);
+    }
+    res.json(results);
   });
 });
 

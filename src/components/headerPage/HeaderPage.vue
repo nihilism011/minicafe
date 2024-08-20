@@ -95,6 +95,12 @@ export default {
       this.fnLogOn();
       this.$router.push("/MainPage");
     },
+    fnPropLogOut() {
+      sessionStorage.clear();
+      this.fnLogOn();
+      this.$router.push("/MainPage");
+    },
+
     fnLogOn() {
       this.logInfo.userId = sessionStorage.getItem("userId");
       this.logInfo.userName = sessionStorage.getItem("userName");
