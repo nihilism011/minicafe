@@ -53,12 +53,20 @@ npm run build  //배포하기 위한 빌드
 ### 로그인 창
 ![image](https://github.com/user-attachments/assets/57c30fbe-1c81-4b15-b1bc-a8757afcbb0d)
 관리자 id   : admin
+<br>
 관리자 pwd  : 1234
-### 관리자 전용
+### 관리자 전용 메뉴 screenshot
+#### STATUS 가 admin 인 관리자한테만 보이는 관리자 메뉴
 ![image](https://github.com/user-attachments/assets/a21be62a-6eb9-44ea-9a89-cb6d9013e6af)
+#### 고객 관리
 ![image](https://github.com/user-attachments/assets/33e412bf-f02e-4ab1-b35b-2cb4fd0cf8b5)
+#### 음료 관리
 ![image](https://github.com/user-attachments/assets/d55b256f-97de-4d9d-82c6-c5e7befb636e)
-![image](https://github.com/user-attachments/assets/1e931032-52d3-4905-9680-7d0aafcb09c1)
+#### 고객 별 판매량 및 음료 별 판매량
 ![image](https://github.com/user-attachments/assets/8170579b-afd5-4e05-bfff-872920ce7818)
+#### 고객 별 판매량 및 음료
 ![image](https://github.com/user-attachments/assets/58b08c69-f970-422f-ae54-2ab6d9647d00)
+#### 음료 별 판매량 및 고객
 ![image](https://github.com/user-attachments/assets/1a8aee00-6c52-4d22-b4aa-2406628ff247)
+#### 각 컬럼별 오름차순 내림차순 정렬
+![image](https://github.com/user-attachments/assets/646c94be-84d5-4563-a866-6169f9d94bdc)
