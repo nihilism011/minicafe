@@ -17,6 +17,7 @@
                 }}</v-col>
                 <v-col class="pt-1 pb-1" v-if="viewState == 'update'" cols="8">
                   <input
+                    type="password"
                     @input="removeSpaces('PASSWORD')"
                     v-model="userInfo.PASSWORD"
                   />
@@ -99,6 +100,18 @@ export default {
       console.log(this.userInfo);
     },
     async fnUserUpdate() {
+      if (this.userInfo.USERNAME.length < 2) {
+        alert("이름은 2글자 이상 입력해주세요.");
+        return;
+      }
+      if (!this.userInfo.PHONENUM) {
+        alert("폰번호 지금은 일단 대충 써주세요");
+        return;
+      }
+      if (!this.userInfo.PASSWORD) {
+        alert("비밀번호 아무거나 한글자라도 써주세요.");
+        return;
+      }
       if (!confirm("수정하시겠습니까?")) {
         return;
       }
