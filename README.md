@@ -50,6 +50,20 @@ npm run build  //배포하기 위한 빌드
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
+## 프로젝트 진행 중 학습 내용
++ CDN 으로 사용하는 Vue 가 아닌 Vue cli 를 통한 webpack 기반 Vue Options API 사용법
++ SPA 를 위한 Vue 의 컴포넌트 사용법
++ Vue Router 를 통한 SPA 내부에서 페이지 이동 구현 기초
++ Vuetify UI 라이브러리 기초 학습 및 라이브러리 최소 사용 방법 학습
++ AJAX 가 아닌 AXIOS 를 사용한 통신 방법 학습 ex)BaseUrl 및 전역 오류 처리
+
+## 다음 프로젝트 학습 목표
++ Vue cli의 webpack 기반 이 아닌 create vue 를 통한 vite 기반 Vue 사용
++ Vue Options API 가 아닌 Composition API 활용
++ Type Script 사용법
++ 좀 더 효율적인 컴포넌트 관리
++ Vuetify UI 라이브러리 사용법 숙달 or 다른 UI 라이브러리 학습
+  
 ## 주요 기능
 
 ### 회원가입
