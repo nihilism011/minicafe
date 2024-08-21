@@ -20,7 +20,16 @@ npm run serve   //open with live server와 비슷한 기능
 ```
 
 ### Project Build
-#### public path 설정할것.
+#### public path 설정
+```
+//vue.config.js
+
+module.exports = defineConfig({
+  transpileDependencies: true,
+  publicPath: "/minicafe",
+}
+```
+#### Build
 ```
 npm run build  //배포하기 위한 빌드 
 ```
